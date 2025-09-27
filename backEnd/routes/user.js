@@ -4,6 +4,6 @@ const {userLogin, userSignUp, getUser} = require("../controller/user")
 
 router.post("/signUp", userSignUp)
 router.post("/login", userLogin)
-router.post("/user/:id", getUser)
+router.get("/user/:id", getUser)
 
 module.exports = router
