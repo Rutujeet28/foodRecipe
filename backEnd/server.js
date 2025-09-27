@@ -8,9 +8,10 @@ const PORT = process.env.PORT || 3000  // access the port as defined in the env 
 connectDb()
 
 app.use(express.json())
+app.use(cors())
 
 app.use("/recipe", require("./routes/recipe"))
-app.use(cors())
+
 
 app.listen(PORT,(err) => {                             // app.listen(PORT, callback) tells after server start listneing on the port and 2nd is callback func
     console.log(`✅ App is listening on port ${PORT}`);
