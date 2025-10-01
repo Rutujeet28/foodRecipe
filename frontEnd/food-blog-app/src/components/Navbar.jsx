@@ -33,7 +33,7 @@ export default function Navbar() {
         <ul>
             <li><NavLink to='/'> Home</NavLink> </li>
             <li onClick={() => isLogin && setIsOpen(true)} ><NavLink to={ !isLogin ? '/myRecipe' : "/"}> My Recipe</NavLink> </li>
-            <li><NavLink to={ !isLogin ? '/favRecipe' : "/"}> Favourites</NavLink> </li>
+            <li onClick={() => isLogin && setIsOpen(true)}><NavLink to={ !isLogin ? '/favRecipe' : "/"}> Favourites</NavLink> </li>
             <li onClick={checkLogin}> <p className='login'>{(isLogin) ? "Login" : "Logout"} </p> </li>
         </ul>
     </header>
