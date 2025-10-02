@@ -14,8 +14,7 @@ export default function Navbar() {
   }, [token])
 
   const checkLogin = () =>{
-    if(token){
-      localStorage.removeItem("token")
+    if(token){      localStorage.removeItem("token")
       localStorage.removeItem("user")
       setIsLogin(true)
     }

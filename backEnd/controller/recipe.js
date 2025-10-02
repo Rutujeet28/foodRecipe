@@ -1,18 +1,19 @@
 const Recipes = require("../models/recipe")    //Import the recipe model from the models folder
 const multer = require('multer')
-
+const path = require('path');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './public/images');
     },
     filename: function (req, file, cb) {
-      const filename = Date.now() + '-' + file.filename
+        const ext = path.extname(file.originalname); // e.g. .jpg, .png
+        const filename = Date.now() + ext;
       cb(null, filename);
     }
   });
   
-  const upload = multer({ storage: storage });
+  const upload = multer({ storage: storage })
   
 
 const getRecipes = async(req, res) => {            // defines a controller function getRecipes with the request, response objects
@@ -25,19 +26,23 @@ const getRecipe = async(req, res) => {            // controller to get a single 
     res.json(recipe)                                        // send the recipe as the json response
 }
 
-const addRecipe = async (req, res) => {            // defines a controller function getRecipes with the request, response objects
-    const {title, ingredients, instructions, time} = req.body   
+const addRecipe=async(req,res)=>{
+    console.log(req.user)
+    const {title, ingredients, instructions, time} = req.body
 
-    if(!title || !ingredients || !instructions){
-        res.json({message:"Required fields can't be empty."})
+    if(!title || !ingredients || !instructions)
+    {
+        res.json({message:"Required fields can't be empty"})
     }
 
-    const newRecipe = await Recipes.create({
-        title, ingredients, instructions, time, coverImage:req.file.filename
-    })
-
-    return res.json(newRecipe)
+    const newRecipe=await Recipes.create({
+        title,ingredients,instructions,time,
+        coverImage:req.file.filename,
+        createdBy: req.user.id
+    });
+   return res.json(newRecipe)
 }
+
 
 const editRecipe = async(req, res) => {            // defines a controller function getRecipes with the request, response objects
     const {title, ingredients, instructions, time} = req.body         // destructure the fields from the request body

@@ -9,6 +9,11 @@ connectDb()
 
 app.use(express.json())
 app.use(cors())
+
+app.use(express.static('public'))
+
+app.use('/images', express.static('public/images')); // added for test
+
   
 
 app.use("/", require("./routes/user"))
