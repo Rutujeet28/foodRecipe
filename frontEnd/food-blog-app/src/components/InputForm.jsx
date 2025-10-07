@@ -8,7 +8,7 @@ export default function InputForm({setIsOpen}) {
     const [isSignUp, setIsSignUp] = useState(false)
     const [error, setError] = useState("")
 
-    const handleOnSubmit = async (e) => {
+    const handleOnSubmit = async (e) => {                  // might give error due to handleOnSubmit instead of onHandleSubmit
         e.preventDefault()
         let endpoint = (isSignUp) ? "signUp" : "login"
         await axios.post(`http://localhost:5000/${endpoint}`, {email, password})

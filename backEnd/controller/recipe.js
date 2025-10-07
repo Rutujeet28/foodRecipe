@@ -51,7 +51,8 @@ const editRecipe = async(req, res) => {            // defines a controller funct
 
     try{
         if(recipe){
-            await Recipes.findByIdAndUpdate(req.params.id, req.params.body, {new : true})
+            let coverImage = req.file?.filename ? req.file?.filename : recipe.coverImage
+            await Recipes.findByIdAndUpdate(req.params.id, {...req.params.body, coverImage}, {new : true})
             res.json({title,ingredients, instructions, time})
         }
     }
@@ -60,8 +61,14 @@ const editRecipe = async(req, res) => {            // defines a controller funct
     }
 }
 
-const deleteRecipe = (req, res) => {            // defines a controller function getRecipes with the request, response objects
-    res.json({message : "hello"})
+const deleteRecipe = async(req, res) => {            // defines a controller function getRecipes with the request, response objects
+    try{
+        await Recipes.deleteOne({_id:req.params.id})
+        res.json({status:"ok"})
+    }
+    catch(err){
+        return res.status(400).json({message:"error"})
+    }
 }
 
 module.exports = {getRecipes, getRecipe, addRecipe, editRecipe, deleteRecipe, upload}                //makes the function usable in other files
